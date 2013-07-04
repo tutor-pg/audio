@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>PhoneGap Primer Ejemplo</title>
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript">
+// Wait for Cordova to load
+//
+function cargar(){
+	document.addEventListener("deviceready", onDeviceReady, false);	
+}
+
+// Cordova is ready
+//
+function onDeviceReady() {
+    playAudio("http://audio.ibeat.org/content/p1rj1s/p1rj1s_-_rockGuitar.mp3");
+}
+
+// Audio player
+//
+var my_media = null;
+var mediaTimer = null;
+
+// Play audio
+//
+function playAudio(src) {
+    // Create Media object from src
+    my_media = new Media(src, onSuccess, onError);
+
+    // Play audio
+    my_media.play();
+
+    // Update my_media position every second
+//     if (mediaTimer == null) {
+//         mediaTimer = setInterval(function() {
+//             // get my_media position
+//             my_media.getCurrentPosition(
+//                 // success callback
+//                 function(position) {
+//                     if (position > -1) {
+//                         setAudioPosition((position) + " sec");
+//                     }
+//                 },
+//                 // error callback
+//                 function(e) {
+//                     console.log("Error getting pos=" + e);
+//                     setAudioPosition("Error: " + e);
+//                 }
+//             );
+//         }, 1000);
+//     }
+}
+
+// Pause audio
+// 
+function pauseAudio() {
+    if (my_media) {
+        my_media.pause();
+    }
+}
+
+// Stop audio
+// 
+function stopAudio() {
+    if (my_media) {
+        my_media.stop();
+    }
+    clearInterval(mediaTimer);
+    mediaTimer = null;
+}
+
+// onSuccess Callback
+//
+function onSuccess() {
+    console.log("playAudio():Audio Success");
+}
+
+// onError Callback 
+//
+function onError(error) {
+    alert('code: '    + error.code    + '\n' + 
+          'message: ' + error.message + '\n');
+}
+
+// Set audio position
+// 
+function setAudioPosition(position) {
+    document.getElementById('audio_position').innerHTML = position;
+}
+
+</script>
+
+<style type="text/css">
+
+	body {
+		background-color: #DEB887;
+	}
+
+	.btn {
+	font-size: 10pt; 
+	font-family: Arial;
+    font-weight: bold; 
+    text-align: center;
+    padding: 4px; 
+    background-color: #808080; 
+    color: #FFF; 
+    text-decoration: none; 
+    border: 2px solid #808080;
+    border-radius: 8px;
+    transition: all 1s ease 0.5s; 
+    -webkit-transition: all 1s ease 0.5s;
+    display: block;
+    margin: 5px auto;
+    width: 70%;
+	}
+	
+	.btn:hover { 
+    border-bottom: 2px solid #999; 
+    border-top: 2px solid #efefef; 
+    border-right: 2px solid #999; 
+    border-left: 2px solid #efefef;
+    background-color: #DCDCDC; 
+    color: #808080;
+    transform: rotateX(180deg);
+    -webkit-transform: rotateX(180deg);
+    }  
+	
+</style>
+
+</head>
+<body onload="cargar()">
+	<a href="#" class="btn" onclick="playAudio('http://audio.ibeat.org/content/p1rj1s/p1rj1s_-_rockGuitar.mp3');">Play Audio</a>
+
+    <a href="#" class="btn" onclick="pauseAudio();">Pause Playing Audio</a>
+
+    <a href="#" class="btn" onclick="stopAudio();">Stop Playing Audio</a>
+<!--       <p id="audio_position"></p> -->  
+	
+</body>
+</html>
